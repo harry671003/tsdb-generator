@@ -9,6 +9,8 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.43.44 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
-	golang.org/x/sys v0.0.0-20181116152217-5ac8a444bdc5 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 )
