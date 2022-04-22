@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/oklog/ulid"
 )
 
 func GetBlocks(path string) *[]string {
@@ -14,7 +16,9 @@ func GetBlocks(path string) *[]string {
 		log.Fatalf("Error while getting blocks: %v", err)
 	}
 	for _, f := range files {
-		blocks = append(blocks, f.Name())
+		if _, err := ulid.Parse(f.Name()); err == nil {
+			blocks = append(blocks, f.Name())	
+		}
 	}
 	return &blocks
 }

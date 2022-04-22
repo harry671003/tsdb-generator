@@ -12,5 +12,6 @@ require (
 	github.com/aws/aws-sdk-go v1.43.44 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/oklog/ulid/v2 v2.0.2 // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 )

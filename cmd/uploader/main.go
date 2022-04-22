@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"strings"
+	"sync"
 
 	"github.com/harry671003/tsdb-generator/pkg/s3"
 	"github.com/harry671003/tsdb-generator/pkg/util"
@@ -30,16 +31,25 @@ func main() {
 	s3Helper := s3.NewS3Helper(*awsRegion, *s3Bucket, *tenantId)
 
 	for _, block := range *blocks {
-		log.Printf("Getting files for block: %v\n", block)
-		files := util.GetFilesInBlock("data/" + block)
-		log.Printf("Found files %v\n", *files)
+		uploadBlock(block, s3Helper)
+	}
+}
 
-		for _, file := range *files {
+func uploadBlock(block string, s3Helper *s3.S3Helper) {
+	files := util.GetFilesInBlock("data/" + block)
+	log.Printf("Uploading files for block %s: %v\n", block, *files)
+
+	var wg sync.WaitGroup
+	for _, file := range *files {
+		wg.Add(1)
+		go func(file string) {
+			defer wg.Done()
 			s3Key := strings.ReplaceAll(file, "data/", "")
-			log.Printf("Uploading file: %s\n", s3Key)
 			if err := s3Helper.UploadFileToS3(s3Key, file); err != nil {
 				log.Fatalf("Error while uploading file: %v", err)
 			}
-		}
+			log.Printf("Uploaded file: %s\n", s3Key)
+		}(file)
 	}
+	wg.Wait()
 }
