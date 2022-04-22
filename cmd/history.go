@@ -1,11 +1,11 @@
-package main
+package cmd
 
 import (
 	"flag"
 	"log"
 	"time"
 
-	"github.com/jjneely/stuff/tsdb"
+	"github.com/harry671003/pkg/tsdb/tsdb-generator"
 )
 
 var (
